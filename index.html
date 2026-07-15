@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VariableS | Premium Quiet Luxury</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Inter:wght@300;400;500;600;700;800&display=swap');
+      
+      :root {
+        --maroon: #5b0f0f;
+        --maroon-dark: #3d0a0a;
+        --accent-gold: #e2b07e;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #ffffff;
+        color: #1a1a1a;
+        overflow-x: hidden;
+      }
+
+      .font-serif-display {
+        font-family: 'Playfair Display', serif;
+      }
+
+      /* Refined Golden VariableS Logo */
+      .brand-logo-container {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 0.5rem;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        text-decoration: none;
+      }
+
+      .logo-v {
+        font-family: 'Playfair Display', serif;
+        font-size: 3.2rem; 
+        font-weight: 900;
+        font-style: italic;
+        color: var(--accent-gold);
+        line-height: 1;
+        z-index: 10;
+        position: relative;
+        margin-right: 0.3rem;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        transition: all 0.4s ease;
+      }
+
+      .logo-s {
+        font-family: 'Playfair Display', serif;
+        font-size: 3.2rem; 
+        font-weight: 900;
+        font-style: italic;
+        color: var(--accent-gold);
+        line-height: 1;
+        z-index: 10;
+        position: relative;
+        margin-left: 0.5rem;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        transition: all 0.4s ease;
+      }
+
+      .logo-mid {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.3rem; 
+        font-weight: 400;
+        font-style: italic;
+        letter-spacing: 0.05em;
+        color: #ffffff;
+        z-index: 9;
+        padding: 0;
+        transform: translateY(2px); 
+        transition: all 0.4s ease;
+      }
+
+      .brand-logo-container:hover .logo-v,
+      .brand-logo-container:hover .logo-s {
+        filter: brightness(1.2) drop-shadow(0 0 12px rgba(226, 176, 126, 0.8));
+        color: #ffffff;
+      }
+
+      .brand-logo-container:hover .logo-mid {
+        color: var(--accent-gold);
+        letter-spacing: 0.1em;
+      }
+
+      /* Infinite Marquee Animation for Moving Boxes */
+      @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+
+      .animate-marquee {
+        display: flex;
+        width: max-content;
+        animation: marquee 40s linear infinite;
+      }
+
+      .animate-marquee:hover {
+        animation-play-state: paused;
+      }
+
+      /* Transitions & Animations */
+      .nav-link {
+        position: relative;
+        transition: opacity 0.3s ease;
+      }
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: -4px;
+        left: 0;
+        background-color: white;
+        transition: width 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .animate-reveal {
+        animation: fadeInUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+        opacity: 0;
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f8f8f8;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--maroon);
+        border-radius: 0;
+      }
+
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+      .slide-in {
+        animation: slideIn 0.5s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+      }
+
+      @keyframes slideIn {
+        from { transform: translateX(100%); }
+        to { transform: translateX(0); }
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.11.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

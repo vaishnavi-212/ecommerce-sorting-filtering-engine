@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Package, CreditCard, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Package, CreditCard, Sparkles, ArrowRight, ShieldCheck, Ruler, RotateCcw } from 'lucide-react';
 import { UI_IMAGES } from '../imageRegistry';
 
 const Profile: React.FC = () => {
@@ -14,9 +15,12 @@ const Profile: React.FC = () => {
             </div>
             <h2 className="text-3xl font-serif-display text-[#5b0f0f] mb-2">Aryan Sharma</h2>
             <p className="text-gray-400 mb-8 font-bold text-xs uppercase tracking-widest">Premium Member Since 2023</p>
-            <button className="w-full py-3.5 rounded-full border-2 border-[#5b0f0f] text-[#5b0f0f] font-black text-[10px] uppercase tracking-widest hover:bg-[#5b0f0f] hover:text-white transition-all">
-              Edit Silhouette Profile
-            </button>
+            <Link 
+              to="/concierge?tab=sizing"
+              className="block w-full py-3.5 rounded-full border-2 border-[#5b0f0f] text-[#5b0f0f] font-black text-[10px] uppercase tracking-widest hover:bg-[#5b0f0f] hover:text-white transition-all text-center"
+            >
+              View Silhouette Sizing
+            </Link>
           </div>
 
           <div className="bg-gray-50 rounded-[2rem] p-10 space-y-6">
@@ -30,20 +34,44 @@ const Profile: React.FC = () => {
               <span className="font-black text-yellow-600">Platinum</span>
             </div>
           </div>
+
+          <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm space-y-4">
+            <h4 className="font-serif-display text-lg text-gray-900">Concierge Desk</h4>
+            <div className="space-y-2 text-xs font-bold">
+              <Link to="/concierge?tab=shipping" className="flex items-center justify-between p-2.5 rounded-xl hover:bg-gray-50 text-gray-700 hover:text-[#5b0f0f] transition-colors">
+                <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-[#5b0f0f]" /> Shipping Policy</span>
+                <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+              </Link>
+              <Link to="/concierge?tab=returns" className="flex items-center justify-between p-2.5 rounded-xl hover:bg-gray-50 text-gray-700 hover:text-[#5b0f0f] transition-colors">
+                <span className="flex items-center gap-2"><RotateCcw className="w-4 h-4 text-[#5b0f0f]" /> 14-Day Returns</span>
+                <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+              </Link>
+              <Link to="/concierge?tab=sizing" className="flex items-center justify-between p-2.5 rounded-xl hover:bg-gray-50 text-gray-700 hover:text-[#5b0f0f] transition-colors">
+                <span className="flex items-center gap-2"><Ruler className="w-4 h-4 text-[#5b0f0f]" /> Sizing Guide</span>
+                <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+              </Link>
+            </div>
+          </div>
         </aside>
 
         <main className="lg:col-span-2 space-y-16">
           <section>
             <h1 className="text-5xl md:text-6xl font-serif-display text-[#5b0f0f] mb-12">Personal Space</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-white p-10 rounded-[2rem] shadow-lg border border-gray-100 hover:-translate-y-2 transition-all duration-500">
-                <Package className="w-10 h-10 text-[#5b0f0f] mb-6 stroke-[1.5]" />
-                <h3 className="text-2xl font-serif-display mb-3">Track Orders</h3>
+              <Link 
+                to="/concierge?tab=tracking"
+                className="bg-white p-10 rounded-[2rem] shadow-lg border border-gray-100 hover:-translate-y-2 transition-all duration-500 block group"
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <Package className="w-10 h-10 text-[#5b0f0f] stroke-[1.5]" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#5b0f0f] bg-[#5b0f0f]/10 px-3 py-1 rounded-full group-hover:bg-[#5b0f0f] group-hover:text-white transition-colors">Live GPS</span>
+                </div>
+                <h3 className="text-2xl font-serif-display mb-3 text-gray-900">Track Orders</h3>
                 <p className="text-gray-400 text-sm font-medium leading-relaxed">View real-time status of your active shipments and returns.</p>
-              </div>
+              </Link>
               <div className="bg-white p-10 rounded-[2rem] shadow-lg border border-gray-100 hover:-translate-y-2 transition-all duration-500">
                 <CreditCard className="w-10 h-10 text-[#5b0f0f] mb-6 stroke-[1.5]" />
-                <h3 className="text-2xl font-serif-display mb-3">Saved Methods</h3>
+                <h3 className="text-2xl font-serif-display mb-3 text-gray-900">Saved Methods</h3>
                 <p className="text-gray-400 text-sm font-medium leading-relaxed">Manage your premium payment cards and shipping addresses.</p>
               </div>
             </div>

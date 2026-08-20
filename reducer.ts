@@ -1,5 +1,6 @@
 
-import { StoreState, StoreAction, CartItem } from './types';
+import { StoreState, StoreAction, CartItem, Product } from './types';
+import { getAvailableSizes } from './utils';
 
 export const initialState: StoreState = {
   cart: [],
@@ -15,10 +16,41 @@ export function storeReducer(state: StoreState, action: StoreAction): StoreState
     case 'SET_CART_OPEN':
       return { ...state, isCartOpen: action.payload };
     case 'ADD_TO_CART': {
-      const existing = state.cart.find(item => item.id === action.payload.id);
-      const newCart = existing 
-        ? state.cart.map(item => item.id === action.payload.id ? { ...item, qty: item.qty + 1 } : item)
-        : [...state.cart, { ...action.payload, qty: 1 }];
+      let product: Product;
+      let requestedSize: string | undefined;
+
+      if ('product' in action.payload) {
+        product = action.payload.product;
+        requestedSize = action.payload.size;
+      } else {
+        product = action.payload;
+        requestedSize = action.payload.selectedSize;
+      }
+
+      const availableSizes = getAvailableSizes(product);
+      const chosenSize = requestedSize || product.selectedSize || availableSizes[0] || 'M';
+      const cartItemId = `${product.id}_${chosenSize}`;
+
+      const existingIndex = state.cart.findIndex(
+        item => (item.cartItemId || `${item.id}_${item.selectedSize}`) === cartItemId
+      );
+
+      let newCart: CartItem[];
+      if (existingIndex > -1) {
+        newCart = state.cart.map((item, idx) =>
+          idx === existingIndex ? { ...item, qty: item.qty + 1 } : item
+        );
+      } else {
+        newCart = [
+          ...state.cart,
+          {
+            ...product,
+            selectedSize: chosenSize,
+            cartItemId,
+            qty: 1,
+          },
+        ];
+      }
       
       return {
         ...state,
@@ -26,20 +58,24 @@ export function storeReducer(state: StoreState, action: StoreAction): StoreState
         isCartOpen: true,
         categoryClicks: {
           ...state.categoryClicks,
-          [action.payload.category || 'general']: (state.categoryClicks[action.payload.category || 'general'] || 0) + 7
+          [product.category || 'general']: (state.categoryClicks[product.category || 'general'] || 0) + 7
         }
       };
     }
     case 'REMOVE_FROM_CART':
       return {
         ...state,
-        cart: state.cart.filter(item => item.id !== action.payload),
+        cart: state.cart.filter(item => {
+          const key = item.cartItemId || `${item.id}_${item.selectedSize}`;
+          return key !== action.payload && item.id !== action.payload;
+        }),
       };
     case 'UPDATE_QTY':
       return {
         ...state,
         cart: state.cart.map(item => {
-          if (item.id === action.payload.id) {
+          const key = item.cartItemId || `${item.id}_${item.selectedSize}`;
+          if (key === action.payload.id || item.id === action.payload.id) {
             const newQty = Math.max(0, item.qty + action.payload.delta);
             return { ...item, qty: newQty };
           }

@@ -1,13 +1,21 @@
 
 import React, { useState } from 'react';
-import { Heart, Star } from 'lucide-react';
+import { Heart, Star, Check } from 'lucide-react';
 import { Product } from '../types';
 import { useStore } from '../AppContext';
+import { getAvailableSizes } from '../utils';
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const { state, dispatch } = useStore();
   const [added, setAdded] = useState(false);
   const isWishlisted = state.wishlist.includes(product.id);
+
+  const availableSizes = getAvailableSizes(product);
+  const [selectedSize, setSelectedSize] = useState<string>(() => {
+    if (product.selectedSize) return product.selectedSize;
+    if (availableSizes.includes('M')) return 'M';
+    return availableSizes[0] || 'One Size';
+  });
 
   const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -18,31 +26,11 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch({ type: 'ADD_TO_CART', payload: product });
+    dispatch({ type: 'ADD_TO_CART', payload: { product, size: selectedSize } });
     dispatch({ type: 'TRACK_CLICK', payload: product.category || 'general' });
     
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
-  };
-
-  const getSizeLabel = () => {
-    if (product.sizes) return product.sizes;
-    const cat = product.category?.toLowerCase() || '';
-    if (cat === 'accessories' || product.subcategory?.toLowerCase() === 'handbags' || product.subcategory?.toLowerCase() === 'toys') {
-      return 'One Size';
-    }
-    
-    const idHash = product.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    let sizes = ['S', 'M', 'L', 'XL'];
-    
-    if (idHash % 4 === 0) {
-      sizes = sizes.filter(s => s !== 'S');
-    }
-    if (idHash % 10 === 0) {
-      sizes = sizes.filter(s => s !== 'M');
-    }
-    
-    return sizes.join(' / ');
   };
 
   return (
@@ -78,7 +66,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
       </div>
 
       <div className="p-3 md:p-6 flex-1 flex flex-col justify-between">
-        <div className="space-y-2 md:space-y-4 mb-4">
+        <div className="space-y-2 md:space-y-4 mb-3">
           <div>
             <div className="hidden md:flex justify-between items-start mb-1">
               <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#5b0f0f]/40 block capitalize truncate">
@@ -108,8 +96,8 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                   <span className="text-gray-800 capitalize truncate">{product.material || 'Premium'}</span>
                </div>
                <div className="flex flex-col truncate">
-                  <span className="mb-0.5 opacity-90 text-[#5b0f0f]">Size</span> 
-                  <span className="text-[#5b0f0f] capitalize truncate">{getSizeLabel()}</span>
+                  <span className="mb-0.5 opacity-90 text-[#5b0f0f]">Selected Size</span> 
+                  <span className="text-[#5b0f0f] font-black capitalize truncate">{selectedSize}</span>
                </div>
                <div className="flex flex-col truncate text-right">
                   <span className="mb-0.5 opacity-90 text-gray-500">Detail</span> 
@@ -119,18 +107,57 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                </div>
             </div>
           </div>
+
+          {/* Size Selector */}
+          <div className="pt-1">
+            <div className="flex items-center justify-between text-[8px] md:text-[9px] uppercase tracking-wider mb-1.5 font-bold">
+              <span className="text-gray-500">Choose Size:</span>
+              <span className="text-[#5b0f0f] font-black">{selectedSize}</span>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {availableSizes.map((sz) => {
+                const isSelected = selectedSize === sz;
+                return (
+                  <button
+                    key={sz}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedSize(sz);
+                    }}
+                    className={`px-2 md:px-2.5 py-1 text-[8px] md:text-[9px] font-black rounded-lg transition-all border ${
+                      isSelected
+                        ? 'bg-[#5b0f0f] text-white border-[#5b0f0f] shadow-sm scale-105'
+                        : 'bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:bg-gray-50'
+                    }`}
+                    aria-label={`Select size ${sz}`}
+                  >
+                    {sz}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
         
         <button 
           onClick={handleAddToCart}
           disabled={added}
-          className={`w-full py-3 md:py-4 rounded-xl md:rounded-2xl text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] transition-all shadow-lg active:scale-95 ${
+          className={`w-full py-3 md:py-3.5 rounded-xl md:rounded-2xl text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] transition-all shadow-lg active:scale-95 flex items-center justify-center gap-1.5 ${
             added 
             ? 'bg-green-600 text-white cursor-default' 
-            : 'bg-[#5b0f0f] text-white hover:bg-black opacity-100 md:opacity-0 group-hover:opacity-100 transform translate-y-0 md:translate-y-2 group-hover:translate-y-0'
+            : 'bg-[#5b0f0f] text-white hover:bg-black'
           }`}
         >
-          {added ? 'Added to Bag' : 'Add to Cart'}
+          {added ? (
+            <>
+              <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+              Added ({selectedSize})
+            </>
+          ) : (
+            `Add to Cart (${selectedSize})`
+          )}
         </button>
       </div>
     </div>

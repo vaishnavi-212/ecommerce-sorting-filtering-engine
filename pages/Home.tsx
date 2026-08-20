@@ -1,12 +1,102 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Heart } from 'lucide-react';
+import { Star, Heart, Check } from 'lucide-react';
 import { CATEGORIES, LIMITED_EDITION_PRODUCTS } from '../data';
 import { useStore } from '../AppContext';
 import { UI_IMAGES } from '../imageRegistry';
 import { HERO_SLIDES } from '../heroData';
 import { REVIEWS } from '../reviewsData';
+import { getAvailableSizes } from '../utils';
+import { Product } from '../types';
+
+const HomeLimitedCard: React.FC<{ p: Product }> = ({ p }) => {
+  const { state, dispatch } = useStore();
+  const availableSizes = getAvailableSizes(p);
+  const [selectedSize, setSelectedSize] = useState<string>(() => {
+    if (p.selectedSize) return p.selectedSize;
+    if (availableSizes.includes('M')) return 'M';
+    return availableSizes[0] || 'One Size';
+  });
+  const [added, setAdded] = useState(false);
+  const isWishlisted = state.wishlist.includes(p.id);
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    dispatch({ type: 'ADD_TO_CART', payload: { product: p, size: selectedSize } });
+    dispatch({ type: 'TRACK_CLICK', payload: 'Limited' });
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
+
+  return (
+    <div className="flex-shrink-0 w-[250px] md:w-72 h-[390px] md:h-[470px] relative group cursor-pointer transition-all duration-500 hover:-translate-y-2">
+      <div className="w-full h-full overflow-hidden rounded-[1rem] md:rounded-[1.5rem] shadow-xl border border-white/5 bg-black relative">
+        <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full text-[9px] font-black text-amber-400">
+          <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+          <span>{p.rating}</span>
+        </div>
+
+        <img 
+          src={p.img} 
+          alt={p.name} 
+          className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000" 
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent flex flex-col justify-end p-5 md:p-6 text-center opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <h4 className="text-white text-sm md:text-md font-serif-display mb-1 truncate uppercase tracking-wider">{p.name}</h4>
+          <p className="text-white/60 font-black text-xs mb-2">₹{p.price.toLocaleString()}</p>
+          
+          {/* Size Selector */}
+          <div className="flex items-center justify-center gap-1 mb-3 flex-wrap">
+            {availableSizes.map((sz) => (
+              <button
+                key={sz}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedSize(sz);
+                }}
+                className={`px-2 py-0.5 rounded-md text-[8px] font-black uppercase transition-all ${
+                  selectedSize === sz
+                    ? 'bg-white text-black scale-105 shadow-sm'
+                    : 'bg-white/20 text-white/80 hover:bg-white/30'
+                }`}
+              >
+                {sz}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex gap-2">
+            <button 
+              onClick={handleAdd}
+              disabled={added}
+              className={`flex-1 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] py-2.5 md:py-3 rounded-xl transition-all shadow-lg active:scale-95 flex items-center justify-center gap-1 ${
+                added ? 'bg-green-600 text-white' : 'bg-white text-black hover:bg-white/90'
+              }`}
+            >
+              {added ? (
+                <>
+                  <Check className="w-3 h-3 stroke-[2.5]" />
+                  Added ({selectedSize})
+                </>
+              ) : (
+                `Add (${selectedSize})`
+              )}
+            </button>
+            <button 
+              onClick={(e) => { e.stopPropagation(); dispatch({ type: 'TOGGLE_WISHLIST', payload: p.id }); }}
+              className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-all ${isWishlisted ? 'bg-red-500 text-white' : 'bg-white/10 backdrop-blur-md hover:bg-white hover:text-[#5b0f0f]'}`}
+              aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+            >
+              <Heart className={`w-4 h-4 md:w-5 md:h-5 ${isWishlisted ? 'fill-white text-white' : 'text-white'}`} />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Home: React.FC = () => {
   const { state, dispatch } = useStore();
@@ -144,47 +234,9 @@ const Home: React.FC = () => {
         
         <div className="relative overflow-visible px-4 md:px-12">
           <div className="flex overflow-x-auto gap-4 md:gap-6 no-scrollbar pb-6 scroll-smooth">
-            {LIMITED_EDITION_PRODUCTS.map((p) => {
-              const isWishlisted = state.wishlist.includes(p.id);
-              return (
-                <div 
-                  key={p.id} 
-                  className="flex-shrink-0 w-[240px] md:w-72 h-[380px] md:h-[460px] relative group cursor-pointer transition-all duration-500 hover:-translate-y-2"
-                >
-                  <div className="w-full h-full overflow-hidden rounded-[1rem] md:rounded-[1.5rem] shadow-xl border border-white/5 bg-black relative">
-                    <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full text-[9px] font-black text-amber-400">
-                       <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                       <span>{p.rating}</span>
-                    </div>
-
-                    <img 
-                      src={p.img} 
-                      alt={p.name} 
-                      className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000" 
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-transparent to-transparent flex flex-col justify-end p-5 md:p-6 text-center opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <h4 className="text-white text-sm md:text-md font-serif-display mb-1 truncate uppercase tracking-wider">{p.name}</h4>
-                      <p className="text-white/40 text-[8px] md:text-[10px] mb-4 line-clamp-2 italic">{p.description}</p>
-                      <div className="flex gap-2">
-                        <button 
-                          onClick={(e) => { e.stopPropagation(); dispatch({ type: 'ADD_TO_CART', payload: p }); }}
-                          className="flex-1 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] bg-white text-black py-2.5 md:py-3 rounded-xl hover:bg-black hover:text-white transition-all shadow-lg active:scale-95"
-                        >
-                          Add Bag
-                        </button>
-                        <button 
-                          onClick={(e) => { e.stopPropagation(); dispatch({ type: 'TOGGLE_WISHLIST', payload: p.id }); }}
-                          className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-all ${isWishlisted ? 'bg-red-500 text-white' : 'bg-white/10 backdrop-blur-md hover:bg-white hover:text-[#5b0f0f]'}`}
-                          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-                        >
-                          <Heart className={`w-4 h-4 md:w-5 md:h-5 ${isWishlisted ? 'fill-white text-white' : 'text-white'}`} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {LIMITED_EDITION_PRODUCTS.map((p) => (
+              <HomeLimitedCard key={p.id} p={p} />
+            ))}
           </div>
         </div>
       </section>

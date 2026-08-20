@@ -222,3 +222,70 @@ export const cosineSimilarity = (vecA: number[], vecB: number[]): number => {
   if (normA === 0 || normB === 0) return 0;
   return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
 };
+
+/**
+ * 6. AVAILABLE SIZES HELPER
+ */
+export const getAvailableSizes = (product: Product): string[] => {
+  if (product.sizes) {
+    if (Array.isArray(product.sizes)) return product.sizes;
+    if (typeof product.sizes === 'string') {
+      const split = product.sizes.split(/[/,]/).map(s => s.trim()).filter(Boolean);
+      if (split.length > 0) return split;
+    }
+  }
+
+  const cat = (product.category || '').toLowerCase();
+  const subcat = (product.subcategory || '').toLowerCase();
+  const name = (product.name || '').toLowerCase();
+
+  // Accessories / Handbags / Jewelry / Watches / Chains / Studs / Toys / Belts
+  if (
+    cat.includes('accessories') ||
+    subcat.includes('handbag') ||
+    subcat.includes('jewelry') ||
+    subcat.includes('jewel') ||
+    subcat.includes('watch') ||
+    subcat.includes('toy') ||
+    subcat.includes('belt') ||
+    subcat.includes('tie') ||
+    name.includes('chain') ||
+    name.includes('watch') ||
+    name.includes('chrono') ||
+    name.includes('stud') ||
+    name.includes('ring') ||
+    name.includes('band') ||
+    name.includes('bag')
+  ) {
+    return ['One Size'];
+  }
+
+  // Footwear / Shoes
+  if (
+    subcat.includes('shoe') ||
+    subcat.includes('footwear') ||
+    subcat.includes('runner') ||
+    name.includes('runner') ||
+    name.includes('sneaker') ||
+    name.includes('boot') ||
+    name.includes('loafer')
+  ) {
+    return ['UK 7', 'UK 8', 'UK 9', 'UK 10', 'UK 11'];
+  }
+
+  // Kids
+  if (cat.includes('kid')) {
+    return ['3-4Y', '5-6Y', '7-8Y', '9-10Y', '11-12Y'];
+  }
+
+  // Limited edition apparel vs accessory check
+  if (cat === 'limited') {
+    if (name.includes('chain') || name.includes('chrono') || name.includes('stud') || name.includes('band') || name.includes('model')) {
+      return ['One Size'];
+    }
+    return ['S', 'M', 'L', 'XL'];
+  }
+
+  // Standard Men & Women apparel (Shirts, T-shirts, Trousers, Hoodies, Dresses, Jackets, etc.)
+  return ['XS', 'S', 'M', 'L', 'XL'];
+};

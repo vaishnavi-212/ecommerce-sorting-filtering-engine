@@ -38,43 +38,51 @@ const CartDrawer: React.FC = () => {
               </button>
             </div>
           ) : (
-            state.cart.map((item) => (
-              <div key={item.id} className="flex gap-4 p-3 border border-gray-100 rounded-2xl hover:shadow-md transition-shadow">
-                <img src={item.img} alt={item.name} className="w-20 h-28 object-cover rounded-xl" />
-                <div className="flex-1 flex flex-col justify-between py-1">
-                  <div>
-                    <h3 className="font-bold text-[#5b0f0f] text-sm leading-tight uppercase tracking-tight">{item.name}</h3>
-                    <p className="text-xs text-gray-500 mt-1">₹{item.price.toLocaleString()}</p>
-                  </div>
-                  <div className="flex items-center justify-between mt-2">
-                    <div className="flex items-center space-x-4 border border-gray-100 rounded-lg px-3 py-1 bg-gray-50/50">
+            state.cart.map((item) => {
+              const itemKey = item.cartItemId || `${item.id}_${item.selectedSize || 'M'}`;
+              return (
+                <div key={itemKey} className="flex gap-4 p-3 border border-gray-100 rounded-2xl hover:shadow-md transition-shadow">
+                  <img src={item.img} alt={item.name} className="w-20 h-28 object-cover rounded-xl" />
+                  <div className="flex-1 flex flex-col justify-between py-1">
+                    <div>
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="font-bold text-[#5b0f0f] text-sm leading-tight uppercase tracking-tight line-clamp-1">{item.name}</h3>
+                        <span className="bg-[#5b0f0f]/10 text-[#5b0f0f] text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider whitespace-nowrap">
+                          {item.selectedSize || 'M'}
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">₹{item.price.toLocaleString()}</p>
+                    </div>
+                    <div className="flex items-center justify-between mt-2">
+                      <div className="flex items-center space-x-4 border border-gray-100 rounded-lg px-3 py-1 bg-gray-50/50">
+                        <button 
+                          onClick={() => dispatch({ type: 'UPDATE_QTY', payload: { id: itemKey, delta: -1 } })}
+                          className="text-gray-400 hover:text-[#5b0f0f] font-bold"
+                          aria-label="Decrease quantity"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="font-black text-xs w-4 text-center">{item.qty}</span>
+                        <button 
+                          onClick={() => dispatch({ type: 'UPDATE_QTY', payload: { id: itemKey, delta: 1 } })}
+                          className="text-gray-400 hover:text-[#5b0f0f] font-bold"
+                          aria-label="Increase quantity"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
                       <button 
-                        onClick={() => dispatch({ type: 'UPDATE_QTY', payload: { id: item.id, delta: -1 } })}
-                        className="text-gray-400 hover:text-[#5b0f0f] font-bold"
-                        aria-label="Decrease quantity"
+                        onClick={() => dispatch({ type: 'REMOVE_FROM_CART', payload: itemKey })}
+                        className="text-red-400 text-[10px] font-black uppercase tracking-widest hover:text-red-600 flex items-center gap-1"
                       >
-                        <Minus className="w-3 h-3" />
-                      </button>
-                      <span className="font-black text-xs w-4 text-center">{item.qty}</span>
-                      <button 
-                        onClick={() => dispatch({ type: 'UPDATE_QTY', payload: { id: item.id, delta: 1 } })}
-                        className="text-gray-400 hover:text-[#5b0f0f] font-bold"
-                        aria-label="Increase quantity"
-                      >
-                        <Plus className="w-3 h-3" />
+                        <Trash2 className="w-3.5 h-3.5" />
+                        Delete
                       </button>
                     </div>
-                    <button 
-                      onClick={() => dispatch({ type: 'REMOVE_FROM_CART', payload: item.id })}
-                      className="text-red-400 text-[10px] font-black uppercase tracking-widest hover:text-red-600 flex items-center gap-1"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                      Delete
-                    </button>
                   </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
 

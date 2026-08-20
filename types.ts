@@ -8,14 +8,17 @@ export interface Product {
   material?: string;
   description?: string;
   color?: string;
-  sizes?: string;
+  sizes?: string | string[];
   rating?: number | string;
   category?: string;
   subcategory?: string;
+  selectedSize?: string;
 }
 
 export interface CartItem extends Product {
   qty: number;
+  selectedSize: string;
+  cartItemId: string;
 }
 
 export interface StoreState {
@@ -26,7 +29,7 @@ export interface StoreState {
 }
 
 export type StoreAction =
-  | { type: 'ADD_TO_CART'; payload: Product }
+  | { type: 'ADD_TO_CART'; payload: Product | { product: Product; size?: string } }
   | { type: 'REMOVE_FROM_CART'; payload: string }
   | { type: 'UPDATE_QTY'; payload: { id: string; delta: number } }
   | { type: 'TOGGLE_WISHLIST'; payload: string }

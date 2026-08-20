@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Globe, Share2, Compass } from 'lucide-react';
 import { AppProvider } from './AppContext';
 import Navbar from './components/Navbar';
@@ -17,6 +17,7 @@ import Recommendations from './pages/Recommendations';
 import Profile from './pages/Profile';
 import OutfitGenerator from './pages/OutfitGenerator';
 import LimitedEdition from './pages/LimitedEdition';
+import Concierge from './pages/Concierge';
 
 const App: React.FC = () => {
   return (
@@ -37,6 +38,7 @@ const App: React.FC = () => {
               <Route path="/outfit-generator" element={<OutfitGenerator />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/limited" element={<LimitedEdition />} />
+              <Route path="/concierge" element={<Concierge />} />
             </Routes>
           </main>
 
@@ -50,35 +52,35 @@ const App: React.FC = () => {
                 </div>
                 <p className="text-white/60 font-medium text-sm leading-relaxed pt-4">Elevated wardrobe essentials for the modern silhouette. Variable luxury, thoughtful utility, and a commitment to longevity.</p>
                 <div className="flex space-x-6 text-white/50 pt-4">
-                  <span className="cursor-pointer hover:text-white transition-colors" aria-label="Explore">
+                  <Link to="/categories" className="cursor-pointer hover:text-white transition-colors" aria-label="Explore Collection">
                     <Compass className="w-5 h-5" />
-                  </span>
-                  <span className="cursor-pointer hover:text-white transition-colors" aria-label="Share">
+                  </Link>
+                  <Link to="/outfit-generator" className="cursor-pointer hover:text-white transition-colors" aria-label="Outfit Generator">
                     <Share2 className="w-5 h-5" />
-                  </span>
-                  <span className="cursor-pointer hover:text-white transition-colors" aria-label="Global Archive">
+                  </Link>
+                  <Link to="/products" className="cursor-pointer hover:text-white transition-colors" aria-label="Global Archive">
                     <Globe className="w-5 h-5" />
-                  </span>
+                  </Link>
                 </div>
               </div>
               
               <div>
                 <h3 className="text-[10px] font-black uppercase tracking-[0.4em] mb-8 text-white">Collection</h3>
                 <ul className="space-y-3 text-white/50 text-[11px] font-bold uppercase tracking-widest">
-                  <li className="hover:text-white transition-colors cursor-pointer">Men's Apparel</li>
-                  <li className="hover:text-white transition-colors cursor-pointer">Women's Edit</li>
-                  <li className="hover:text-white transition-colors cursor-pointer">Variable Accessories</li>
-                  <li className="hover:text-white transition-colors cursor-pointer">Limited Drops</li>
+                  <li><Link to="/products?cat=Men" className="hover:text-white transition-colors">Men's Apparel</Link></li>
+                  <li><Link to="/products?cat=Women" className="hover:text-white transition-colors">Women's Edit</Link></li>
+                  <li><Link to="/products?cat=Accessories" className="hover:text-white transition-colors">Variable Accessories</Link></li>
+                  <li><Link to="/limited" className="hover:text-white transition-colors">Limited Drops</Link></li>
                 </ul>
               </div>
 
               <div>
                 <h3 className="text-[10px] font-black uppercase tracking-[0.4em] mb-8 text-white">Concierge</h3>
                 <ul className="space-y-3 text-white/50 text-[11px] font-bold uppercase tracking-widest">
-                  <li className="hover:text-white transition-colors cursor-pointer">Shipping Policy</li>
-                  <li className="hover:text-white transition-colors cursor-pointer">Returns</li>
-                  <li className="hover:text-white transition-colors cursor-pointer">Sizing Guide</li>
-                  <li className="hover:text-white transition-colors cursor-pointer">Track Order</li>
+                  <li><Link to="/concierge?tab=shipping" className="hover:text-white transition-colors">Shipping Policy</Link></li>
+                  <li><Link to="/concierge?tab=returns" className="hover:text-white transition-colors">Returns</Link></li>
+                  <li><Link to="/concierge?tab=sizing" className="hover:text-white transition-colors">Sizing Guide</Link></li>
+                  <li><Link to="/concierge?tab=tracking" className="hover:text-white transition-colors">Track Order</Link></li>
                 </ul>
               </div>
 

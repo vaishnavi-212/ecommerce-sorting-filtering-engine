@@ -1,6 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { SearchX } from 'lucide-react';
 import { PRODUCTS, CATEGORIES, getSubcategories } from '../data';
 import ProductCard from '../components/ProductCard';
 import { Product } from '../types';
@@ -190,7 +191,7 @@ const FilterPage: React.FC = () => {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-32 text-center animate-reveal">
-              <i className="fa-solid fa-magnifying-glass-minus text-6xl text-gray-100 mb-8"></i>
+              <SearchX className="w-16 h-16 text-gray-200 mb-8 stroke-[1.2]" />
               <h2 className="text-3xl font-serif-display text-[#5b0f0f] mb-3">Product Search Empty</h2>
               <p className="text-gray-400 text-[11px] max-w-xs mx-auto mb-10 font-medium uppercase tracking-[0.3em] leading-relaxed">No matches found for your current search criteria.</p>
               <button onClick={resetAll} className="bg-[#5b0f0f] text-white px-12 py-3.5 rounded-full font-black text-xs shadow-xl uppercase tracking-widest hover:bg-black transition-all">

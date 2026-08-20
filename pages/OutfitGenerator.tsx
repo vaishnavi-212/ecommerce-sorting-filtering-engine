@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { RotateCw, Sparkles } from 'lucide-react';
 import { useStore } from '../AppContext';
 import { PRODUCTS } from '../data';
 import ProductCard from '../components/ProductCard';
@@ -106,9 +107,10 @@ const OutfitGenerator: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
               <button 
                 onClick={() => mode && generate(mode)}
-                className="w-full px-6 py-3.5 border-2 border-[#5b0f0f] text-[#5b0f0f] rounded-xl md:rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-[#5b0f0f] hover:text-white transition-all group"
+                className="w-full px-6 py-3.5 border-2 border-[#5b0f0f] text-[#5b0f0f] rounded-xl md:rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-[#5b0f0f] hover:text-white transition-all group flex items-center justify-center gap-2"
               >
-                <i className="fa-solid fa-rotate-right mr-2 group-hover:rotate-180 transition-transform duration-500"></i> Shuffle
+                <RotateCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
+                Shuffle
               </button>
               <button 
                 onClick={addAllToCart}
@@ -145,7 +147,7 @@ const OutfitGenerator: React.FC = () => {
       ) : (
         <div className="flex flex-col items-center justify-center py-32 text-center animate-reveal">
            <div className="w-24 h-24 md:w-32 md:h-32 border border-gray-100 rounded-full flex items-center justify-center mb-8 md:mb-10 bg-gray-50">
-             <i className="fa-solid fa-wand-magic-sparkles text-3xl md:text-4xl text-gray-200"></i>
+             <Sparkles className="w-8 h-8 md:w-10 md:h-10 text-gray-300 stroke-[1.2]" />
            </div>
            <h2 className="text-xl md:text-3xl font-serif-display text-gray-300 italic mb-2">Select Archive</h2>
            <p className="text-gray-400 text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em]">Choose a category above to start curation</p>

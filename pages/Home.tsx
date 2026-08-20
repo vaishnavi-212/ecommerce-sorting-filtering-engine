@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Star, Heart } from 'lucide-react';
 import { CATEGORIES, LIMITED_EDITION_PRODUCTS } from '../data';
 import { useStore } from '../AppContext';
 import { UI_IMAGES } from '../imageRegistry';
@@ -152,7 +153,7 @@ const Home: React.FC = () => {
                 >
                   <div className="w-full h-full overflow-hidden rounded-[1rem] md:rounded-[1.5rem] shadow-xl border border-white/5 bg-black relative">
                     <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full text-[9px] font-black text-amber-400">
-                       <i className="fa-solid fa-star"></i>
+                       <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
                        <span>{p.rating}</span>
                     </div>
 
@@ -174,8 +175,9 @@ const Home: React.FC = () => {
                         <button 
                           onClick={(e) => { e.stopPropagation(); dispatch({ type: 'TOGGLE_WISHLIST', payload: p.id }); }}
                           className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-all ${isWishlisted ? 'bg-red-500 text-white' : 'bg-white/10 backdrop-blur-md hover:bg-white hover:text-[#5b0f0f]'}`}
+                          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
                         >
-                          <i className={`fa-${isWishlisted ? 'solid' : 'regular'} fa-heart`}></i>
+                          <Heart className={`w-4 h-4 md:w-5 md:h-5 ${isWishlisted ? 'fill-white text-white' : 'text-white'}`} />
                         </button>
                       </div>
                     </div>

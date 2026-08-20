@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { X, ShoppingBag, Minus, Plus, Trash2 } from 'lucide-react';
 import { useStore } from '../AppContext';
 
 const CartDrawer: React.FC = () => {
@@ -19,15 +20,15 @@ const CartDrawer: React.FC = () => {
       <div className="fixed right-0 top-0 h-full w-full sm:w-[400px] md:max-w-md bg-white z-[70] shadow-2xl slide-in flex flex-col">
         <div className="p-4 md:p-6 border-b flex justify-between items-center bg-[#5b0f0f] text-white">
           <h2 className="text-xl font-bold font-serif-display">Your Cart</h2>
-          <button onClick={handleClose} className="p-2 hover:scale-110 transition-transform">
-            <i className="fa-solid fa-xmark text-2xl"></i>
+          <button onClick={handleClose} className="p-2 hover:scale-110 transition-transform" aria-label="Close Cart">
+            <X className="w-6 h-6" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {state.cart.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-gray-400 space-y-4">
-              <i className="fa-solid fa-cart-arrow-down text-6xl opacity-20"></i>
+            <div className="h-full flex flex-col items-center justify-center text-gray-400 space-y-4 py-16">
+              <ShoppingBag className="w-16 h-16 opacity-20 stroke-[1.5]" />
               <p className="text-lg font-medium">Your cart is empty</p>
               <button 
                 onClick={handleClose}
@@ -50,21 +51,24 @@ const CartDrawer: React.FC = () => {
                       <button 
                         onClick={() => dispatch({ type: 'UPDATE_QTY', payload: { id: item.id, delta: -1 } })}
                         className="text-gray-400 hover:text-[#5b0f0f] font-bold"
+                        aria-label="Decrease quantity"
                       >
-                        <i className="fa-solid fa-minus text-[10px]"></i>
+                        <Minus className="w-3 h-3" />
                       </button>
                       <span className="font-black text-xs w-4 text-center">{item.qty}</span>
                       <button 
                         onClick={() => dispatch({ type: 'UPDATE_QTY', payload: { id: item.id, delta: 1 } })}
                         className="text-gray-400 hover:text-[#5b0f0f] font-bold"
+                        aria-label="Increase quantity"
                       >
-                        <i className="fa-solid fa-plus text-[10px]"></i>
+                        <Plus className="w-3 h-3" />
                       </button>
                     </div>
                     <button 
                       onClick={() => dispatch({ type: 'REMOVE_FROM_CART', payload: item.id })}
-                      className="text-red-400 text-[10px] font-black uppercase tracking-widest hover:text-red-600"
+                      className="text-red-400 text-[10px] font-black uppercase tracking-widest hover:text-red-600 flex items-center gap-1"
                     >
+                      <Trash2 className="w-3.5 h-3.5" />
                       Delete
                     </button>
                   </div>

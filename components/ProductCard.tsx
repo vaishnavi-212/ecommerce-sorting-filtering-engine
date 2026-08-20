@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Heart, Star } from 'lucide-react';
 import { Product } from '../types';
 import { useStore } from '../AppContext';
 
@@ -58,12 +59,13 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             className={`w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center transition-all shadow-sm ${isWishlisted ? 'bg-white text-red-500 shadow-lg' : 'bg-white/60 text-gray-800 hover:bg-white hover:shadow-md backdrop-blur-sm'}`}
             aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
           >
-            <i className={`fa-${isWishlisted ? 'solid' : 'regular'} fa-heart text-sm md:text-lg`}></i>
+            <Heart className={`w-4 h-4 md:w-5 md:h-5 ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-gray-800'}`} />
           </button>
         </div>
         <div className="absolute bottom-3 left-3 z-10 md:hidden">
-           <div className="bg-white/80 backdrop-blur-md px-2 py-1 rounded-full text-[8px] font-black text-amber-600 shadow-sm">
-              <i className="fa-solid fa-star mr-1"></i>{product.rating}
+           <div className="bg-white/80 backdrop-blur-md px-2 py-1 rounded-full text-[8px] font-black text-amber-600 shadow-sm flex items-center gap-1">
+              <Star className="w-2.5 h-2.5 fill-amber-500 text-amber-500" />
+              <span>{product.rating}</span>
            </div>
         </div>
         {product.category === 'Limited' && (
@@ -83,7 +85,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                 {product.subcategory || product.category}
               </span>
               <div className="flex items-center gap-1 text-[10px] font-bold text-amber-500">
-                <i className="fa-solid fa-star"></i>
+                <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
                 <span>{product.rating}</span>
               </div>
             </div>

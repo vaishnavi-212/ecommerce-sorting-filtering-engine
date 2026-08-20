@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
+import { SlidersHorizontal, FolderOpen } from 'lucide-react';
 import { PRODUCTS } from '../data';
 import ProductCard from '../components/ProductCard';
 
@@ -43,7 +44,7 @@ const Products: React.FC = () => {
           </p>
         </div>
         <Link to="/filter" className="bg-[#5b0f0f] text-white px-8 md:px-10 py-3.5 md:py-4 rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-black shadow-xl transition-all flex items-center gap-3">
-          <i className="fa-solid fa-sliders text-[9px]"></i>
+          <SlidersHorizontal className="w-3.5 h-3.5" />
           Refine Search
         </Link>
       </div>
@@ -58,7 +59,7 @@ const Products: React.FC = () => {
       
       {filteredProducts.length === 0 && (
         <div className="py-32 text-center animate-reveal">
-          <i className="fa-solid fa-folder-open text-6xl text-gray-100 mb-6"></i>
+          <FolderOpen className="w-16 h-16 text-gray-200 mx-auto mb-6 stroke-[1.2]" />
           <h2 className="text-2xl font-serif-display text-gray-300">Archive Empty</h2>
           <p className="text-gray-400 text-xs mt-2 font-bold uppercase tracking-widest">No products matching this specific criteria.</p>
         </div>

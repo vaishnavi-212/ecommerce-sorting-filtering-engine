@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Heart } from 'lucide-react';
 import { useStore } from '../AppContext';
 import { PRODUCTS } from '../data';
 import ProductCard from '../components/ProductCard';
@@ -12,12 +13,12 @@ const Wishlist: React.FC = () => {
   return (
     <div className="container mx-auto px-6 py-16">
       <h1 className="text-5xl md:text-6xl text-center font-serif-display text-[#5b0f0f] mb-6">Your Wishlist</h1>
-      <p className="text-center text-gray-400 font-medium mb-16 text-base tracking-wide">Pieces saved for your future silhouette ❤️</p>
+      <p className="text-center text-gray-400 font-medium mb-16 text-base tracking-wide">Pieces saved for your future silhouette</p>
 
       {wishlistProducts.length === 0 ? (
         <div className="max-w-md mx-auto text-center py-20 animate-reveal">
           <div className="bg-gray-50 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-8">
-            <i className="fa-regular fa-heart text-4xl text-gray-200"></i>
+            <Heart className="w-10 h-10 text-gray-300 stroke-[1.5]" />
           </div>
           <h2 className="text-3xl font-serif-display text-gray-800 mb-4">Your wishlist is empty</h2>
           <p className="text-gray-500 text-base mb-10 leading-relaxed">Save items you love while browsing and they will appear here for you to review and shop later.</p>

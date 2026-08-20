@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { Globe, Share2, Compass } from 'lucide-react';
 import { AppProvider } from './AppContext';
 import Navbar from './components/Navbar';
 import CartDrawer from './components/CartDrawer';
@@ -48,10 +49,16 @@ const App: React.FC = () => {
                   <span className="logo-s">S</span>
                 </div>
                 <p className="text-white/60 font-medium text-sm leading-relaxed pt-4">Elevated wardrobe essentials for the modern silhouette. Variable luxury, thoughtful utility, and a commitment to longevity.</p>
-                <div className="flex space-x-6 text-xl text-white/50 pt-4">
-                  <i className="fa-brands fa-instagram cursor-pointer hover:text-white transition-colors"></i>
-                  <i className="fa-brands fa-facebook cursor-pointer hover:text-white transition-colors"></i>
-                  <i className="fa-brands fa-pinterest cursor-pointer hover:text-white transition-colors"></i>
+                <div className="flex space-x-6 text-white/50 pt-4">
+                  <span className="cursor-pointer hover:text-white transition-colors" aria-label="Explore">
+                    <Compass className="w-5 h-5" />
+                  </span>
+                  <span className="cursor-pointer hover:text-white transition-colors" aria-label="Share">
+                    <Share2 className="w-5 h-5" />
+                  </span>
+                  <span className="cursor-pointer hover:text-white transition-colors" aria-label="Global Archive">
+                    <Globe className="w-5 h-5" />
+                  </span>
                 </div>
               </div>
               

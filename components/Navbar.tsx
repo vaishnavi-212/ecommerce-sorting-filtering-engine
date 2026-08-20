@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Search, Heart, ShoppingBag, User } from 'lucide-react';
 import { useStore } from '../AppContext';
 
 const Navbar: React.FC = () => {
@@ -34,8 +35,9 @@ const Navbar: React.FC = () => {
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden p-2 text-white/80 hover:text-white"
+            aria-label={isMenuOpen ? 'Close Menu' : 'Open Menu'}
           >
-            <i className={`fa-solid ${isMenuOpen ? 'fa-xmark' : 'fa-bars'} text-xl`}></i>
+            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
           {/* Logo */}
@@ -69,14 +71,14 @@ const Navbar: React.FC = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <button type="submit" className="absolute right-4 text-white/50 group-hover:text-white transition-all hover:scale-110">
-              <i className="fa-solid fa-magnifying-glass text-[12px]"></i>
+            <button type="submit" className="absolute right-4 text-white/50 group-hover:text-white transition-all hover:scale-110" aria-label="Search">
+              <Search className="w-3.5 h-3.5" />
             </button>
           </form>
 
           <div className="flex items-center space-x-2 md:space-x-4">
-            <Link to="/wishlist" className="p-2 hover:scale-110 transition-all relative">
-              <i className="fa-regular fa-heart text-xl md:text-2xl"></i>
+            <Link to="/wishlist" className="p-2 hover:scale-110 transition-all relative" aria-label="Wishlist">
+              <Heart className={`w-5 h-5 md:w-6 md:h-6 ${state.wishlist.length > 0 ? 'fill-white text-white' : 'text-white'}`} />
               {state.wishlist.length > 0 && (
                 <span className="absolute top-1 right-1 bg-white text-[#5b0f0f] text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-black shadow-md">
                   {state.wishlist.length}
@@ -87,8 +89,9 @@ const Navbar: React.FC = () => {
             <button 
               onClick={() => dispatch({ type: 'SET_CART_OPEN', payload: true })} 
               className="p-2 hover:scale-110 transition-all relative"
+              aria-label="Shopping Cart"
             >
-              <i className="fa-solid fa-bag-shopping text-xl md:text-2xl"></i>
+              <ShoppingBag className="w-5 h-5 md:w-6 md:h-6 text-white" />
               {state.cart.length > 0 && (
                 <span className="absolute top-1 right-1 bg-white text-[#5b0f0f] text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-black shadow-md">
                   {state.cart.reduce((a, b) => a + b.qty, 0)}
@@ -96,8 +99,8 @@ const Navbar: React.FC = () => {
               )}
             </button>
 
-            <Link to="/profile" className="hidden sm:block p-2 hover:scale-110 transition-all">
-              <i className="fa-regular fa-user text-xl md:text-2xl"></i>
+            <Link to="/profile" className="hidden sm:block p-2 hover:scale-110 transition-all" aria-label="Profile">
+              <User className="w-5 h-5 md:w-6 md:h-6 text-white" />
             </Link>
           </div>
         </div>

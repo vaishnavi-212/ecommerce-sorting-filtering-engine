@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Package, CreditCard, Sparkles } from 'lucide-react';
 import { UI_IMAGES } from '../imageRegistry';
 
 const Profile: React.FC = () => {
@@ -36,12 +37,12 @@ const Profile: React.FC = () => {
             <h1 className="text-5xl md:text-6xl font-serif-display text-[#5b0f0f] mb-12">Personal Space</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-white p-10 rounded-[2rem] shadow-lg border border-gray-100 hover:-translate-y-2 transition-all duration-500">
-                <i className="fa-solid fa-box text-4xl text-[#5b0f0f] mb-6"></i>
+                <Package className="w-10 h-10 text-[#5b0f0f] mb-6 stroke-[1.5]" />
                 <h3 className="text-2xl font-serif-display mb-3">Track Orders</h3>
                 <p className="text-gray-400 text-sm font-medium leading-relaxed">View real-time status of your active shipments and returns.</p>
               </div>
               <div className="bg-white p-10 rounded-[2rem] shadow-lg border border-gray-100 hover:-translate-y-2 transition-all duration-500">
-                <i className="fa-solid fa-credit-card text-4xl text-[#5b0f0f] mb-6"></i>
+                <CreditCard className="w-10 h-10 text-[#5b0f0f] mb-6 stroke-[1.5]" />
                 <h3 className="text-2xl font-serif-display mb-3">Saved Methods</h3>
                 <p className="text-gray-400 text-sm font-medium leading-relaxed">Manage your premium payment cards and shipping addresses.</p>
               </div>
@@ -67,8 +68,8 @@ const Profile: React.FC = () => {
                 The Sourcing Archive —
               </button>
             </div>
-            <div className="absolute top-0 right-0 p-12 text-[15rem] text-[#5b0f0f]/5 pointer-events-none">
-              <i className="fa-solid fa-signature"></i>
+            <div className="absolute top-0 right-0 p-12 text-[#5b0f0f]/5 pointer-events-none">
+              <Sparkles className="w-64 h-64" />
             </div>
           </section>
 

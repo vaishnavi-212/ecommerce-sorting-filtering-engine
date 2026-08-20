@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
-import { Heart, Star, Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Heart, Star, Check, Ruler } from 'lucide-react';
 import { Product } from '../types';
 import { useStore } from '../AppContext';
 import { getAvailableSizes } from '../utils';
@@ -112,7 +113,17 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           <div className="pt-1">
             <div className="flex items-center justify-between text-[8px] md:text-[9px] uppercase tracking-wider mb-1.5 font-bold">
               <span className="text-gray-500">Choose Size:</span>
-              <span className="text-[#5b0f0f] font-black">{selectedSize}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-[#5b0f0f] font-black">{selectedSize}</span>
+                <Link
+                  to="/concierge?tab=sizing"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-gray-400 hover:text-[#5b0f0f] flex items-center gap-0.5 text-[7px] md:text-[8px] uppercase tracking-widest transition-colors font-medium border-b border-gray-300 hover:border-[#5b0f0f]"
+                >
+                  <Ruler className="w-2.5 h-2.5" />
+                  Guide
+                </Link>
+              </div>
             </div>
             <div className="flex flex-wrap gap-1.5">
               {availableSizes.map((sz) => {
